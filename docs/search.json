@@ -1,0 +1,21 @@
+{
+  "articles": [
+    {
+      "path": "about.html",
+      "title": "About this site",
+      "description": "Some additional details about the website",
+      "author": [],
+      "contents": "\n\n\n\n",
+      "last_modified": "2021-06-24T19:37:08-04:00"
+    },
+    {
+      "path": "index.html",
+      "title": "The Relationship Between Game Duration and Gold difference in Pro League of Legends",
+      "description": "Welcome to the website. I hope you enjoy it!\n",
+      "author": [],
+      "contents": "\n\n\n\n\n\n\n\n\n\n",
+      "last_modified": "2021-06-24T19:37:13-04:00"
+    }
+  ],
+  "collections": []
+}

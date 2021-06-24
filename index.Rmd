@@ -1,0 +1,40 @@
+---
+title: "The Relationship Between Game Duration and Gold difference in Pro League of Legends"
+description: |
+  Welcome to the website. I hope you enjoy it!
+site: distill::distill_website
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# Learn more about creating websites with Distill at:
+# https://rstudio.github.io/distill/website.html
+
+# Learn more about publishing to GitHub Pages at:
+# https://rstudio.github.io/distill/publish_website.html#github-pages
+
+```
+
+```{r}
+library(tidyverse)
+pro <- read_csv("LeagueofLegends.csv")
+```
+
+```{r}
+pro %>% 
+  select(gamelength, bResult, golddiff) %>% 
+  mutate(golddiff = as.list(str_split(golddiff, ","))) %>%
+  unnest() %>% 
+  mutate(golddiff = as.numeric(noquote(golddiff))) %>% 
+  group_by(gamelength) %>% 
+  summarize(mean = sum(golddiff)/ n()) %>% 
+  ggplot(aes(gamelength,mean,fill = if_else(mean >0, "red", "blue")))+
+  geom_col()+
+  labs(title = "Average Gold Difference Based on Game Length in \nPro League of Legends Games",
+       subtitle = "The longer the game goes, the advantage is towards the red team",
+       x = "Game Length in Minutes",
+       y = "Average Gold Difference",
+       fill = "Team Color")
+```
+

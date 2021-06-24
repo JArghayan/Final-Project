@@ -18,23 +18,26 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ```{r}
 library(tidyverse)
+library(plotly)
 pro <- read_csv("LeagueofLegends.csv")
 ```
 
 ```{r}
-pro %>% 
+plot <- pro %>% 
   select(gamelength, bResult, golddiff) %>% 
   mutate(golddiff = as.list(str_split(golddiff, ","))) %>%
   unnest() %>% 
   mutate(golddiff = as.numeric(noquote(golddiff))) %>% 
   group_by(gamelength) %>% 
-  summarize(mean = sum(golddiff)/ n()) %>% 
-  ggplot(aes(gamelength,mean,fill = if_else(mean >0, "red", "blue")))+
+  summarize(mean = round(sum(golddiff)/ n())) %>% 
+  ggplot(aes(gamelength,mean,fill = if_else(mean >0, "red", "blue"), text = paste("Avg. Gold Difference", mean, "\n", "Game Duration", gamelength)))+
   geom_col()+
   labs(title = "Average Gold Difference Based on Game Length in \nPro League of Legends Games",
        subtitle = "The longer the game goes, the advantage is towards the red team",
-       x = "Game Length in Minutes",
+       x = "Game Duration in Minutes",
        y = "Average Gold Difference",
-       fill = "Team Color")
+       fill = "Team Color",
+       caption = "RIOT API")
+ggplotly(plot, tooltip = "text")
 ```
 
